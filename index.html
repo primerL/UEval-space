@@ -335,6 +335,22 @@
             color: #dc3545;
         }
 
+        .result-criterion {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .result-explanation {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #495057;
+            border-left: 3px solid #dee2e6;
+        }
+
         .model-text {
             background: white;
             padding: 15px;
@@ -776,6 +792,7 @@
                             ${this.renderReferenceSection(item)}
                             ${this.renderRubrics(item)}
                             ${this.renderModelSection(item, 'GPT', item.GPT_text, item.GPT_image, item.GPT_text_result, item.GPT_image_result)}
+                            ${this.renderModelSection(item, 'Gemini', item.Gemini_text, item.Gemini_image, item.Gemini_text_result, item.Gemini_image_result)}
                         </div>
                         <div class="review-controls">
                             <button class="btn btn-approve" onclick="reviewSystem.approveItem('${item.id}')">
@@ -904,7 +921,14 @@
                         <div class="results-header">文本评估结果</div>
                         ${textResult.map(result => `
                             <div class="result-item ${result.criteria_met ? 'passed' : 'failed'}">
-                                ${result.criteria_met ? '✅' : '❌'} ${result.criterion}
+                                <div class="result-criterion">
+                                    ${result.criteria_met ? '✅' : '❌'} ${result.criterion}
+                                </div>
+                                ${result.explanation ? `
+                                    <div class="result-explanation">
+                                        <strong>解释:</strong> ${result.explanation}
+                                    </div>
+                                ` : ''}
                             </div>
                         `).join('')}
                     `;
@@ -915,7 +939,14 @@
                         <div class="results-header">图像评估结果</div>
                         ${imageResult.map(result => `
                             <div class="result-item ${result.criteria_met ? 'passed' : 'failed'}">
-                                ${result.criteria_met ? '✅' : '❌'} ${result.criterion}
+                                <div class="result-criterion">
+                                    ${result.criteria_met ? '✅' : '❌'} ${result.criterion}
+                                </div>
+                                ${result.explanation ? `
+                                    <div class="result-explanation">
+                                        <strong>解释:</strong> ${result.explanation}
+                                    </div>
+                                ` : ''}
                             </div>
                         `).join('')}
                     `;
